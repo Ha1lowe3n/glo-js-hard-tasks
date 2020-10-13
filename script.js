@@ -1,8 +1,6 @@
 'use strict';
 
 let lang = prompt('Выберите язык: ru или en');
-console.log(typeof(lang));
-console.log(lang);
 
 const stateLangDays = {
   ru: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
@@ -10,9 +8,7 @@ const stateLangDays = {
 };
 
 // 1
-if (lang !== 'ru' && lang !== 'en') {
-  console.log('Язык может быть только ru или en');
-} else {
+if (lang === 'ru' || lang === 'en') {
   if (lang === 'ru') {
     console.log(stateLangDays.ru);
   } else if (lang === 'en') {
@@ -32,14 +28,16 @@ if (lang !== 'ru' && lang !== 'en') {
       console.log('Произошла ошибка');
   }
   
-  console.log(stateLangDays[lang]);  
+  console.log(stateLangDays[lang]); 
+} else {
+  console.log('Язык может быть только ru или en');
 }
 
 
 // 2
-let namePerson = 'Артём';
+const namePerson = 'Артём';
 
-let result = (namePerson === 'Артём') ? 'директор' :
+const result = (namePerson === 'Артём') ? 'директор' :
   (namePerson === 'Максим') ? 'преподаватель' :
   'студент';
 console.log(result);
