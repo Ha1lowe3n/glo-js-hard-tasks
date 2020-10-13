@@ -2,7 +2,7 @@
 
 const deleteSpaces = (str) => {
   let newStr;
-  if (typeof str === 'string') {
+  if (typeof str === 'string' && isNaN(str)) {
     newStr = str.trim();
     if (newStr.length > 30) {
       newStr = newStr.substr(0, 30) + '...';
@@ -12,7 +12,7 @@ const deleteSpaces = (str) => {
   }
 
   return newStr;
-}
+};
 
 // тесты
 deleteSpaces(' hello ');
