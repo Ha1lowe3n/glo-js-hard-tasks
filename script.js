@@ -1,23 +1,29 @@
 'use strict';
 
 const deleteSpaces = (str) => {
-  let newStr;
-  if (typeof str === 'string' && isNaN(str)) {
-    newStr = str.trim();
+  let res = 'Вы не передали строку';
+
+  const isNumber = function(n) {
+    return !isNaN(parseFloat(n) && isFinite(n));
+  };
+
+  if (typeof str === 'string' && isNumber(str) === false) {
+    const newStr = str.trim();
     if (newStr.length > 30) {
-      newStr = newStr.substr(0, 30) + '...';
+      res = newStr.substr(0, 30) + '...';
+    } else {
+      res = newStr;
     }
-  } else {
-    newStr = alert('Вы не передали строку');
   }
 
-  return newStr;
+  return res;
 };
 
 // тесты
-deleteSpaces(' hello ');
+console.log(deleteSpaces(123));
 console.log(deleteSpaces(' hello '));
-console.log(deleteSpaces('  heeeeeeeeelllllllllllooooooouuuuuuu '));
+console.log(deleteSpaces('  dfdhfhfjghjghjghjhghfgjfjfgjfjfjgfhffhgjfg '));
+
 
 
 
