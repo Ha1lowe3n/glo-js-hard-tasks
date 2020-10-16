@@ -1,35 +1,68 @@
 'use strict';
 
-let arr = ['87', '354', '7889', '26756858', '444', '87688', '9879677'];
+// генерация числа
+const randomNumber = function (min, max) {
+    // получить случайное число от (min-0.5) до (max+0.5)
+    let rand = min - 0.5 + Math.random() * (max - min + 1);
+    return Math.round(rand);
+};
 
-// 1
-for (let i = 0; i < arr.length; i++) {
-  if (arr[i].startsWith('2') || arr[i].startsWith('4')) {
-      console.log(arr[i]);
-  }
-}
+// проверка на число
+const isNumber = function(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+};
 
-// 2 и 3
-const n = 100;
+const numberGame = function() {
+    const hideNumber = randomNumber(1, 100);
+    let tryings = 10;
 
-numberLabel:
-for (let i = 2; i <= n; i++) {
+    const startGame = function() {
 
-  for (let j = 2; j < i; j++) {
-    if (i % j === 0) {
-      continue numberLabel;
-    }
-  }
+      if (tryings === 0) {
+        const lose = confirm('Попытки закончились, хотите сыграть еще?');
+        if (lose === true) {
+          numberGame();
+        } else {
+          alert('Игра окончена');
+        }
 
-  console.log(i);
-  // ниже сделал с циклом, если нельзя просто взять и написать вот так
-  console.log(`Делители числа ${i}: 1 и ${i}`);
+      } else {
+        const enteredNumber = prompt('Угадай число от 1 до 100');
 
-  // for (let y = i; y === i; y++) {
-  //   console.log(`Делители числа ${y}: 1 и ${i}`);
-  // }
+        if (enteredNumber === null) {
+            alert('Игра окончена');
+
+        } else if (isNumber(enteredNumber)) {
+            if (enteredNumber > hideNumber) {
+              tryings--;
+              alert(`Загаданное число меньше, осталось попыток: ${tryings}`);
+              startGame();
+
+            } else if (enteredNumber < hideNumber) {
+              tryings--;
+              alert(`Загаданное число больше, осталось попыток: ${tryings}`);
+              startGame();
+                    
+            } else {
+              const startAgain = confirm('Поздравляю, Вы угадали!!! Хотите сыграть еще?');
+              if (startAgain === true) {
+                numberGame();
+              }
+            }
+            
+        } else {
+            alert('Введи число!');
+            startGame();
+        }
+      }
   
-}
+  };
+
+  startGame();
+};
+
+numberGame();
+    
 
 
 
