@@ -11,7 +11,6 @@ btnChange.addEventListener('click', () => {
           colorThree = Math.floor(Math.random() * 256);
 
     const bgColor = '#' + colorOne.toString(16) + colorTwo.toString(16) + colorThree.toString(16);
-    console.log(bgColor);
 
     document.body.style.backgroundColor = bgColor;
     idColor.innerText = bgColor;
