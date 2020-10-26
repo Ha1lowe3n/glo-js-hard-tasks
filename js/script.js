@@ -90,6 +90,8 @@ const authorization = () => {
   appData.forEach((item) => {
     if (item.login === loginAuto && item.password === pasAuto) {
       username.textContent = loginAuto;
+    } else {
+      alert('Пользователь не найден!');
     }
   });
 };
