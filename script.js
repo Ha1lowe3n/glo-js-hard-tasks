@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   'use strict';
 
-  function DomElement (selector, height, width, bg, fontSize, position) {
+  function DomElement (selector = '', height = 0, width = 0, bg = '', fontSize = 0, position = '') {
     this.selector = selector;    
     this.height = height;
     this.width = width;
@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
   document.body.append(squareDiv.createNewDiv());
 
   document.addEventListener('keydown', function(e) {
-    console.log(e);
     const squareElem = document.querySelector('div');
 
     if (e.key === 'ArrowUp') {
