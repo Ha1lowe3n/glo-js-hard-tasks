@@ -73,7 +73,7 @@ const render = () => {
       password: passwordVar,
       regDate: toDay
     };
-
+      
     appData.push(newText);
     render();
     addToStorage();
@@ -85,15 +85,30 @@ const render = () => {
 
 const authorization = () => {
   let loginAuto = prompt('Введите логин');
+
+  if (loginAuto === null) {
+    return;
+  }
+
   let pasAuto = prompt('Введите пароль');
 
-  appData.forEach((item) => {
+  if (pasAuto === null) {
+    return;
+  }
+
+  let loginAutoValue;
+  appData.forEach((item) => { 
     if (item.login === loginAuto && item.password === pasAuto) {
-      username.textContent = loginAuto;
-    } else {
-      alert('Пользователь не найден!');
-    }
+      loginAutoValue = loginAuto;
+    } 
+    console.log(loginAutoValue);
   });
+
+  if (loginAutoValue === undefined) {
+    alert('Пользователь не найден');
+  } else {
+    username.textContent = loginAuto;
+  }
 };
 
 btnAuto.addEventListener('click', authorization);
