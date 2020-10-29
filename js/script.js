@@ -34,13 +34,14 @@ const render = () => {
     const li = document.createElement('li');
   
     li.innerHTML = '<span>' + 'Имя: ' + 
-      item.name + ', фамилия: ' + item.lastName + ', зарегистрирован: ' + item.regDate + '</span>' +
+      item.name + ', фамилия: ' + item.lastName + ', зарегистрирован: ' + item.regDate + '</span>' + '  ' +
       '<button class="close"></button>';
     list.append(li); 
 
     console.log(item + '; ' + i);
 
     const btnClose = li.querySelector('.close');
+    btnClose.textContent = 'Удалить';
     
     btnClose.addEventListener('click', () => {
       appData.splice(i, 1);
