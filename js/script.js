@@ -17,8 +17,7 @@ const dateOptions = {
   second: 'numeric'
 };
 
-const date = new Date();
-const toDay = date.toLocaleString('ru', dateOptions);
+
 
 const nameRegister = /^[a-zA-Zа-яА-Я'][a-zA-Zа-яА-Я-' ]+[a-zA-Zа-яА-Я']?$/;
       
@@ -34,11 +33,14 @@ const render = () => {
   appData.forEach(function(item, i) {
     const li = document.createElement('li');
   
-    li.innerHTML = '<span>' + 'Имя: ' + item.name + ', фамилия: ' + item.lastName + ', зарегистрирован: ' + item.regDate + '</span>' +
+    li.innerHTML = '<span>' + 'Имя: ' + 
+      item.name + ', фамилия: ' + item.lastName + ', зарегистрирован: ' + item.regDate + '</span>' +
       '<button class="close"></button>';
     list.append(li); 
 
-    const btnClose = document.querySelector('.close');
+    console.log(item + '; ' + i);
+
+    const btnClose = li.querySelector('.close');
     
     btnClose.addEventListener('click', () => {
       appData.splice(i, 1);
@@ -49,6 +51,7 @@ const render = () => {
   });
 
   const start = () => {
+
     let nameStr = prompt('Введите через пробел Имя и Фамилию пользователя');
   
     if (!nameRegister.test(nameStr) || nameStr.split(' ').length - 1 > 1) {
@@ -65,6 +68,9 @@ const render = () => {
     let passwordVar = prompt('Введите пароль');
 
     const arr = nameStr.split(' ');
+
+    const date = new Date();
+    const toDay = date.toLocaleString('ru', dateOptions);
 
     const newText = {
       name: arr[0],
