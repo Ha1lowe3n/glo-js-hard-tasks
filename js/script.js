@@ -54,7 +54,7 @@ const render = () => {
 
     let nameStr = prompt('Введите через пробел Имя и Фамилию пользователя');
   
-    if (!nameRegister.test(nameStr) || nameStr.split(' ').length - 1 > 1) {
+    if (!nameRegister.test(nameStr) || nameStr.split(' ').length - 1 > 1 || nameStr.split(' ').length - 1 < 1) {
       alert('Ошибка ввода данных!');
       return;
     } 
