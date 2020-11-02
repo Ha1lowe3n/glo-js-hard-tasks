@@ -1,45 +1,36 @@
 'use strict';
 
-const text = document.querySelector('.text');
+const btn = document.querySelector('[data-start]'),
+      elem = document.querySelector('.box'),
+      btnClose = document.querySelector('[data-close]');
 
-const date = new Date(),
-      hour = date.getHours(),
-      time = date.toLocaleTimeString('en'),
-      newYear = new Date(new Date().getFullYear() + 1, 0, 1);
+let pos = 0, 
+    animId,     
+    start = 0; 
 
-let hello;
-
-if (hour >= 5 && hour < 12) {
-  hello = 'Доброе утро!';
-} else if (hour >= 12 && hour < 18) {
-  hello = 'Доброе день!';
-} else if (hour >= 18 && hour < 24) {
-  hello = 'Доброе вечер!';
-} else if (hour >= 0 && hour < 5) {
-  hello = 'Доброй ночи!';
-}
-
-const getWeekDay = () => {
-  const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-
-  const day = date.getDay();
-
-  return days[day];
+const myAnimation = () => {     
+  if (pos < 300 && start) {  
+    pos++;         
+    elem.style.top = pos + "px";         
+    elem.style.left = pos + 'px';         
+    animId = requestAnimationFrame(myAnimation);     
+  }  
 };
 
-const changeEnding = (num) => {
-  const textVariant = [' день', ' дня', ' дней'];
-  const n1 = num % 100,
-    n2 = num % 10;
-  return n1 > 4 && n1 < 21 ? num + textVariant[2] :
-    n2 === 1 ? num + textVariant[0] :
-    n2 > 1 && n2 < 5 ? num + textVariant[1] :
-    num + textVariant[2];
-};
+btn.addEventListener('click', () => {     
+  start = (start + 1) % 2;     
+  if (start) {         
+    animId = requestAnimationFrame(myAnimation);     
+  } else {         
+    cancelAnimationFrame(animId);     
+  } 
+});
 
-const newYearDays = changeEnding(Math.ceil((newYear.getTime() - date.getTime()) / 1000 / 60 / 60 / 24));
+btnClose.addEventListener('click', () => {
+  start = 0;
+  pos = 0;
+  elem.style.top = pos + "px";         
+  elem.style.left = pos + 'px'; 
+});
 
-text.innerHTML = `${hello} <br/>
-  Сегодня: ${getWeekDay()} <br/>
-  Текущее время: ${time} <br/>
-  До нового года осталось ${newYearDays}`;
+
