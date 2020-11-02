@@ -1,62 +1,45 @@
-document.addEventListener('DOMContentLoaded', function() {
-  'use strict';
+'use strict';
 
-  function DomElement (selector = '', height = 0, width = 0, bg = '', fontSize = 0, position = '') {
-    this.selector = selector;    
-    this.height = height;
-    this.width = width;
-    this.bg = bg;
-    this.fontSize = fontSize;
-    this.position = position;
-  }
+const text = document.querySelector('.text');
 
-  DomElement.prototype.createNewDiv = function () {
-    let div;
-    if (this.selector[0] === '.') {
-      div = document.createElement('div');
-      div.classList.add(this.selector.slice(1));
-    } else if (this.selector[0] === '#') {
-      div = document.createElement('p');
-      div.id = this.selector.slice(1);
-    }
+const date = new Date(),
+      hour = date.getHours(),
+      time = date.toLocaleTimeString('en'),
+      newYear = new Date(new Date().getFullYear() + 1, 0, 1);
 
-    div.style.cssText = `height: ${this.height}px;
-      width: ${this.width}px;
-      background: ${this.bg};
-      font-size: ${this.fontSize}px;
-      position: ${this.position};
-      left: 0;
-      top: 0`;
+let hello;
 
-    return div;
-  };
+if (hour >= 5 && hour < 12) {
+  hello = 'Доброе утро!';
+} else if (hour >= 12 && hour < 18) {
+  hello = 'Доброе день!';
+} else if (hour >= 18 && hour < 24) {
+  hello = 'Доброе вечер!';
+} else if (hour >= 0 && hour < 5) {
+  hello = 'Доброй ночи!';
+}
 
-  // доп. задание
+const getWeekDay = () => {
+  const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
 
-  const squareDiv = new DomElement('.new-div', 100, 100, 'black', 10, 'absolute');
+  const day = date.getDay();
 
-  document.body.append(squareDiv.createNewDiv());
+  return days[day];
+};
 
-  document.addEventListener('keydown', function(e) {
-    const squareElem = document.querySelector('div');
+const changeEnding = (num) => {
+  const textVariant = [' день', ' дня', ' дней'];
+  const n1 = num % 100,
+    n2 = num % 10;
+  return n1 > 4 && n1 < 21 ? num + textVariant[2] :
+    n2 === 1 ? num + textVariant[0] :
+    n2 > 1 && n2 < 5 ? num + textVariant[1] :
+    num + textVariant[2];
+};
 
-    if (e.key === 'ArrowUp') {
-      squareElem.style.top = (parseInt(squareElem.style.top, 10) - 10) + 'px';
-    } 
-    if (e.key === 'ArrowDown') {
-      squareElem.style.top = (parseInt(squareElem.style.top, 10) + 10) + 'px';
-    } 
-    if (e.key === 'ArrowLeft') {
-      squareElem.style.left = (parseInt(squareElem.style.left, 10) - 10) + 'px';
-    } 
-    if (e.key === 'ArrowRight') {
-      squareElem.style.left = (parseInt(squareElem.style.left, 10) + 10) + 'px'; 
-    }
-  });
-});
+const newYearDays = changeEnding(Math.ceil((newYear.getTime() - date.getTime()) / 1000 / 60 / 60 / 24));
 
-
-
-
-
-    
+text.innerHTML = `${hello} <br/>
+  Сегодня: ${getWeekDay()} <br/>
+  Текущее время: ${time} <br/>
+  До нового года осталось ${newYearDays}`;
