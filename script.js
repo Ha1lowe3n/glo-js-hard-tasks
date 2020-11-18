@@ -4,10 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const convertValue = document.querySelector('.convert_result'),
         select = document.getElementById('cur1'),
         input = document.getElementById('val'),
+        btn = document.getElementById('btn'),
         urlUSD = 'https://api.exchangeratesapi.io/latest?base=USD',
         urlRUB = 'https://api.exchangeratesapi.io/latest?base=RUB';
 
-  let x, y;
+  let x, y = '';
 
   input.disabled = true;
 
@@ -64,8 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
     } 
   });
 
-  input.addEventListener('input', () => {
-    convertValue.textContent = (input.value * x).toFixed(3) + ` ${y}`;
+  btn.addEventListener('click', () => {
+    if (input.value.trim() !== '') {
+      convertValue.textContent = (input.value * x).toFixed(3) + ` ${y}`;
+    } else {
+      convertValue.textContent = `0.000 ${y}`;
+    }
   });
-
 });
