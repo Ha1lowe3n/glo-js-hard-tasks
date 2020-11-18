@@ -1,48 +1,71 @@
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
-  const select = document.getElementById('cars'),
-        output = document.getElementById('output');
+  const convertValue = document.querySelector('.convert_result'),
+        select = document.getElementById('cur1'),
+        input = document.getElementById('val'),
+        urlUSD = 'https://api.exchangeratesapi.io/latest?base=USD',
+        urlRUB = 'https://api.exchangeratesapi.io/latest?base=RUB';
 
-  const getData = () => {
-    return new Promise((resolve, reject) => {
-      const request = new XMLHttpRequest();
-      request.open('GET', './cars.json');
+  let x, y;
 
-      request.setRequestHeader('Content-type', 'application/json');
-      request.send();
+  input.disabled = true;
 
-      request.addEventListener('readystatechange', () => {
-        if (request.readyState !== 4) {
-          return;
-        };
+  const getData = (url) => {
+    return fetch(url)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error(`${response.status} (${response.statusText})`);
+      } 
+    })
+    .then((data) => {
+      if (url === urlUSD) {
+        x = data.rates[y];
+      }
 
-        if (request.status === 200) {
-          const data = JSON.parse(request.responseText);
-          resolve(data); 
-        } else {
-          reject(request.status);
-        }
-      });
-    });
+      if (url === urlRUB) {
+        x = data.rates[y];
+      }
+    })
+    .catch(error => console.error(error));
+
+  };
+
+  const usdFunc = () => {
+    y = 'RUB';
+    input.value = '';
+    getData(urlUSD);
+    convertValue.textContent = `0.000 ${y}`;
+  };
+
+  const rubFunc = () => {
+    input.value = '';
+    y = 'USD';
+    getData(urlRUB);
+    convertValue.textContent = `0.000 ${y}`;
   };
 
   select.addEventListener('change', () => {
-    getData()
-    .then((data) => {
-      data.cars.forEach(item => {
-        if (item.brand === select.value) {
-          const {brand, model, price} = item;
-          output.innerHTML = `Тачка ${brand} ${model} <br>
-          Цена: ${price}$`;
-        }
-      });
-    })
-    .catch((error) => {
-      console.error(error);
-      output.innerHTML = 'Произошла ошибка';
-    });
-    
+    input.disabled = false;
+    if (select.options.selectedIndex === 0) {
+      input.disabled = true;
+      input.value = '';
+      convertValue.textContent = `0.000`;
+    }
+
+    if (select.value === 'USD') {
+      usdFunc();
+    }
+
+    if (select.value === 'RUB') {
+      rubFunc();
+    } 
+  });
+
+  input.addEventListener('input', () => {
+    convertValue.textContent = (input.value * x).toFixed(3) + ` ${y}`;
   });
 
 });
